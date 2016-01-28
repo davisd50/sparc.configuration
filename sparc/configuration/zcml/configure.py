@@ -1,6 +1,10 @@
 from zope.component import getGlobalSiteManager
 from zope.component.interfaces import ComponentLookupError
-
+from zope.component import getUtility
+from zope.interface import implements
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.interfaces import IVocabularyRegistry
+from zope.schema.vocabulary import setVocabularyRegistry
 import zope.configuration.xmlconfig
 import zope.component
 import zope.security
@@ -8,6 +12,25 @@ import zope.security
 import sparc.common.log
 import logging
 logger = logging.getLogger('sparc.common.configure')
+
+#Copied from Zope2.App.schema
+class Zope2VocabularyRegistry(object):
+    """IVocabularyRegistry that supports global and local utilities.
+    """
+
+    implements(IVocabularyRegistry)
+    __slots__ = ()
+
+    def get(self, context, name):
+        """See zope.schema.interfaces.IVocabularyRegistry.
+        """
+        factory = getUtility(IVocabularyFactory, name)
+        return factory(context)
+
+#Copied from Zope2.App.schema
+def configure_vocabulary_registry():
+    setVocabularyRegistry(Zope2VocabularyRegistry())
+
 
 def Configure(packages = None):
     """Setup Zope Component global registry
@@ -54,6 +77,8 @@ def Configure(packages = None):
         package, zcml = config
         zope.configuration.xmlconfig.XMLConfig(zcml, package)()
         logger.debug("Configured package %s with zcml file %s", str(package), str(zcml))
+    #This allows vocabulary lookups from schemas via IVocabularyFactory interface
+    configure_vocabulary_registry()
 
 
 def ConfigurationRequired(classThatRequiresConfigration):

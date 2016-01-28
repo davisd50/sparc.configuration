@@ -34,7 +34,8 @@ setup(name='sparc.configuration',
       install_requires=[
           'setuptools',
           'zope.interface',
-          'zope.component'
+          'zope.component',
+          'zope.schema'
           # -*- Extra requirements: -*-
       ],
       entry_points="""
