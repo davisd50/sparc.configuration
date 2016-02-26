@@ -23,8 +23,15 @@ Now, let's get the IAppElementTreeConfig factory
 >>> factory = getUtility(IFactory, u'sparc.configuration.xml.app_config')
 
 Make sure the factory is valid and retrieve a config
+>>> from sparc.configuration.xml import IElementTree
 >>> from sparc.configuration.xml import IAppElementTreeConfig
->>> assert(list(factory.getInterfaces())==[IAppElementTreeConfig])
+>>> assert(list(factory.getInterfaces())==[IAppElementTreeConfig, IElementTree])
 >>> config = factory(config_xml)
 >>> IAppElementTreeConfig.providedBy(config)
+True
+
+Let's make sure the elements have been marked
+>>> from sparc.configuration.xml import IXMLElement
+>>> test = config.find('test')
+>>> IXMLElement.providedBy(test)
 True
