@@ -1,11 +1,3 @@
-Configuration
-______________
-As always, we first need to configure our ZCA environment before we can make
-use of component architecture.
->>> from sparc.configuration.zcml import Configure
->>> import sparc.configuration
->>> Configure([sparc.configuration])
-
 App configuration factory
 --------------------------
 An application's XML configuration file may need to be be accessed by other

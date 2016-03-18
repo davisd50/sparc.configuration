@@ -1,15 +1,11 @@
-"""Test
-"""
 import unittest
-from doctest import DocTestSuite
-from doctest import DocFileSuite
+from sparc.testing.fixture import test_suite_mixin
 
-import sparc.configuration.xml
 
-def test_suite():
-    return unittest.TestSuite((
-        DocFileSuite('config.txt',
-                     package=sparc.configuration.xml),))
+class test_suite(test_suite_mixin):
+    package = 'sparc.configuration.xml'
+    module = 'config'
+
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

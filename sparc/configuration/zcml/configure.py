@@ -65,9 +65,8 @@ def Configure(packages = None):
     except TypeError:
         packages = [packages]
     packages = [
-                 (zope.component, 'meta.zcml'),
-                 (zope.security, 'meta.zcml'),
-                 (zope.component, 'configure.zcml')
+                 (zope.component, 'configure.zcml'),
+                 (zope.security, 'configure.zcml')
                  ] + packages
     for config in packages:
         try:
