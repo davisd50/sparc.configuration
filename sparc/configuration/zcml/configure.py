@@ -1,4 +1,4 @@
-from zope.component import getGlobalSiteManager
+from zope.component import getSiteManager
 from zope.component.interfaces import ComponentLookupError
 from zope.component import getUtility
 from zope.interface import implements
@@ -94,18 +94,18 @@ def ConfigurationRequired(classThatRequiresConfigration):
     to function.
     """
     def _checkForZCARegistry(*args, **kwargs):
-        gsm = getGlobalSiteManager()
+        sm = getSiteManager()
         configured = False
-        for a in gsm.registeredAdapters():
+        for a in sm.registeredAdapters():
             configured = True
             break
-        for h in gsm.registeredSubscriptionAdapters():
+        for h in sm.registeredSubscriptionAdapters():
             configured = True
             break
-        for u in gsm.registeredUtilities():
+        for u in sm.registeredUtilities():
             configured = True
             break
-        for h in gsm.registeredHandlers():
+        for h in sm.registeredHandlers():
             configured = True
             break
         if not configured:
