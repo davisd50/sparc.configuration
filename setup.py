@@ -38,6 +38,9 @@ setup(name='sparc.configuration',
           'zope.schema'
           # -*- Extra requirements: -*-
       ],
+      tests_require=[
+          'sparc.testing'
+      ],
       entry_points="""
       # -*- Entry points: -*-
       """,
