@@ -9,9 +9,8 @@ import zope.configuration.xmlconfig
 import zope.component
 import zope.security
 
-import sparc.common.log
-import logging
-logger = logging.getLogger('sparc.common.configure')
+from sparc.logging import logging
+logger = logging.getLogger(__name__)
 
 #Copied from Zope2.App.schema
 class Zope2VocabularyRegistry(object):
