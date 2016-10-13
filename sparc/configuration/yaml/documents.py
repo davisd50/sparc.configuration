@@ -6,8 +6,8 @@ from zope.component.factory import Factory
 from .interfaces import ISparcYamlDocuments
 from .interfaces import ISparcYamlDocumentValueIterator
 
+@interface.implementer(ISparcYamlDocuments)
 class SparcYamlDocuments(object):
-    interface.implements(ISparcYamlDocuments)
     
     def documents(self, config):
         config = config if not isfile(config) else open(config)
@@ -18,14 +18,14 @@ class SparcYamlDocuments(object):
         return self.documents(config).next()
 sparcYamlDocumentsFactory = Factory(SparcYamlDocuments)
 
+@interface.implementer(ISparcYamlDocumentValueIterator)
 class SparcYamlDocumentValueIterator(object):
-    interface.implements(ISparcYamlDocumentValueIterator)
     
     def values(self, document, key):
         _list = document if not isinstance(document, dict) else [document]
         for i in _list:
             if not isinstance(i, dict):
                 continue
-            for k, v in i.iteritems():
+            for k, v in i.items():
                 if k == key:
                     yield v

@@ -1,7 +1,7 @@
+from zope import interface
 from zope.component import getSiteManager
 from zope.component.interfaces import ComponentLookupError
 from zope.component import getUtility
-from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.interfaces import IVocabularyRegistry
 from zope.schema.vocabulary import setVocabularyRegistry
@@ -13,11 +13,11 @@ from sparc.logging import logging
 logger = logging.getLogger(__name__)
 
 #Copied from Zope2.App.schema
+@interface.implementer(IVocabularyRegistry)
 class Zope2VocabularyRegistry(object):
     """IVocabularyRegistry that supports global and local utilities.
     """
 
-    implements(IVocabularyRegistry)
     __slots__ = ()
 
     def get(self, context, name):

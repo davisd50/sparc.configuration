@@ -1,2 +1,2 @@
-from interfaces import ISparcYamlDocuments
-from interfaces import ISparcYamlDocumentValueIterator
+from .interfaces import ISparcYamlDocuments
+from .interfaces import ISparcYamlDocumentValueIterator

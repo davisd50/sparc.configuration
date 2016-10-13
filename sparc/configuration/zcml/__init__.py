@@ -1,2 +1,2 @@
-from configure import Configure
-from configure import ConfigurationRequired
+from .configure import Configure
+from .configure import ConfigurationRequired
