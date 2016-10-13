@@ -33,6 +33,7 @@ setup(name='sparc.configuration',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'yaml',
           'zope.interface',
           'zope.component',
           'zope.schema'

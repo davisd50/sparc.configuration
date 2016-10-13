@@ -4,5 +4,6 @@
     i18n_domain="sparc.configuration">
 
     <include package=".xml" />
+    <include package=".yaml" />
 
 </configure>
