@@ -7,7 +7,11 @@ provides IAppElementTreeConfig (which can then be referenced via
 zope.component.getUtility).
 
 First, we need to simulate a XML configuration file
->>> from StringIO import StringIO
+>>> try:
+...     from StringIO import StringIO
+... except ImportError:
+...     from io import StringIO
+>>> 
 >>> config_xml = StringIO('<config><test/></config>')
 
 Now, let's get the IAppElementTreeConfig factory

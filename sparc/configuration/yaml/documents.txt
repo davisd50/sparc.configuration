@@ -1,0 +1,77 @@
+===========================================
+Sparc YAML Based Application Configurations
+===========================================
+Many Sparc applications require some amount of run time configuration.  An
+example is an application that logs into an external API service, therefore
+requires a set of authentication parameters.
+
+In addition, Sparc leverages the Zope Component Architecture as its core
+framework to allow for the creation of small, re-usable components that
+can be looked up at run time within the component registry.  Many times, these
+components will require runtime configuration information to operate 
+effectively.
+
+Sparc.configuration.yaml provides utilities that allow easy access to 
+run time information stored in YAML configuration files.  The expected
+content of these YAML files will be dependent on the application that is
+leveraging them.
+
+Here are some common use case implementations.
+
+Let's start with a basic key/value YAML configuration
+>>> yaml_config = """\
+... My first entry: my first value
+... My second entry: my second value
+... """
+
+sparc.configurations.yaml provides a utility that can easily return an
+implementation of a Python dict based on the above key/value pairs.
+>>> from zope import component
+>>> from sparc.configuration import yaml
+>>> config = component.getUtility(yaml.ISparcYamlDocuments).first(yaml_config)
+>>> config['My first entry'] == 'my first value'
+True
+
+The returned config container will also provide 
+ISparcAppPyContainerConfiguration
+>>> from sparc.configuration.container import ISparcAppPyContainerConfiguration
+>>> ISparcAppPyContainerConfiguration.providedBy(config)
+True
+
+We can also iterate on multi-document yaml configs
+>>> yaml_config = """\
+... ---
+... My first entry: my first value
+... My second entry: my second value
+... ---
+... 3: a
+... 4: b
+... ---
+... """
+>>> configs = list(component.getUtility(yaml.ISparcYamlDocuments).documents(yaml_config))
+>>> configs[0]['My first entry'] == 'my first value'
+True
+>>> configs[1][3] == 'a'
+True
+
+ISparcAppPyContainerConfiguration is also provided by embedded configuration
+containers.  Here's a slightly more complex config that leverages references
+>>> yaml_config = """\
+... - EntryType1: &type1
+...    dict1: value 1
+...    dict2: value 2
+... - EntryType1: &type2
+...    dict3: value 3
+...    dict4: value 4
+... - EntryType2:
+...    EntryType1: *type2
+...    EntryType3:
+...     field1: !!python/tuple [data1, data2] # creating python tuples isn't a great idea, but is possible
+... """
+>>> config = component.getUtility(yaml.ISparcYamlDocuments).first(yaml_config)
+
+notice that embeded containers also provide ISparcAppPyContainerConfiguration
+>>> ISparcAppPyContainerConfiguration.providedBy(config[2]['EntryType2']['EntryType3'])
+True
+>>> ISparcAppPyContainerConfiguration.providedBy(config[2]['EntryType2']['EntryType3']['field1'])
+True

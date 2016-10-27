@@ -1,0 +1,37 @@
+============================================
+Sparc Container Configuration Value Accessor
+============================================
+In some situations, it is not possible for a Sparc component to know the
+container data type (dict, list, set, tuple) it is dealing with.  The
+ISparcPyContainerValueIterator interface is intended to ease the pain
+of accessing the value of a given configuration key.
+
+The easiest case of value access is a dict, as the value can be directly
+referenced based on key name and there will not be duplicate keys.  The other 
+container types are a touch more complicated as they are either sequenced
+(list, tuple) or a simple container (set).  In these cases, key/value pairs
+are usually one level deep.
+
+Start with a simple dict config
+>>> from zope import component
+>>> from sparc.configuration import container
+>>> config1 = {'1':'a','2':'b'}
+>>> list(component.getUtility(container.ISparcPyDictValueIterator).values(config1,'1'))
+['a']
+
+Now, lets bury that config into another list-based config.  Notice how we
+can still access the value the same as above
+>>> config2 = [config1]
+>>> list(component.getUtility(container.ISparcPyDictValueIterator).values(config2,'1'))
+['a']
+
+One difference, though is lists might have the same key twice.
+>>> config3 = [config1, config1]
+>>> list(component.getUtility(container.ISparcPyDictValueIterator).values(config3,'1'))
+['a', 'a']
+
+If key is buried too deep, then our iterator won't work (you have to access this
+in stand python ways)
+>>> config4 = [[config1]]
+>>> list(component.getUtility(container.ISparcPyDictValueIterator).values(config4,'1'))
+[]

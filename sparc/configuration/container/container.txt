@@ -1,0 +1,62 @@
+=====================================
+Sparc Python Container Configurations
+=====================================
+Many Sparc based applications require run time configuration (i.e. an app
+that requires creds to access an external API).  Although there are many
+ways to implement configurations (xml, ini, json, yaml, etc), the easiest
+way Sparc components to consume configuration information is within native
+Python data containers.
+
+sparc.configuration.container contains utilities that allows for the 
+storage and identification of run time configuration information.  This
+package provides implementations of the Python dict, list, set, and tuple
+data containers that have been marked with ISparcAppPyContainerConfiguration
+(this allows for things like adapter lookup, and validity checking).
+
+empty containers are easy to generate via their factories
+>>> from zope import component
+>>> from sparc.configuration import container
+>>> config = component.createObject(u'sparc.configuration.container.dict')
+
+We can check to make sure its types are appropiate
+>>> isinstance(config, dict)
+True
+>>> container.ISparcAppPyContainerConfiguration.providedBy(config)
+True
+
+We can check the other container types just as easy
+>>> config = component.createObject(u'sparc.configuration.container.list')
+>>> isinstance(config, list)
+True
+>>> container.ISparcAppPyContainerConfiguration.providedBy(config)
+True
+
+>>> config = component.createObject(u'sparc.configuration.container.set')
+>>> isinstance(config, set)
+True
+>>> container.ISparcAppPyContainerConfiguration.providedBy(config)
+True
+
+>>> config = component.createObject(u'sparc.configuration.container.tuple')
+>>> isinstance(config, tuple)
+True
+>>> container.ISparcAppPyContainerConfiguration.providedBy(config)
+True
+
+We can initialize these objects with configurations as well
+>>> my_list = ['1','2']
+>>> config = component.createObject(u'sparc.configuration.container.list', my_list)
+>>> config[0]
+'1'
+>>> config = component.createObject(u'sparc.configuration.container.set', my_list)
+>>> '1' in config
+True
+>>> config = component.createObject(u'sparc.configuration.container.tuple', my_list)
+>>> ('1','2') == config
+True
+
+But most fun is dynamically creating the correct container config
+>>> my_dict = {'1':'a','2':'b'}
+>>> config = component.createObject(u'sparc.configuration.container', my_dict)
+>>> isinstance(config, dict)
+True

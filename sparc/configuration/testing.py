@@ -1,0 +1,4 @@
+import sparc.configuration
+from sparc.testing.testlayer import SparcZCMLFileLayer
+
+SPARC_CONFIGURATION_INTEGRATION_LAYER = SparcZCMLFileLayer(sparc.configuration)

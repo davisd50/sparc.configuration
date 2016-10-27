@@ -3,9 +3,10 @@ import zope.testrunner
 from sparc.testing.fixture import test_suite_mixin
 from sparc.configuration.testing import SPARC_CONFIGURATION_INTEGRATION_LAYER
 
+
 class test_suite(test_suite_mixin):
-    package = 'sparc.configuration.xml'
-    module = 'config'
+    package = 'sparc.configuration.container'
+    module = 'container'
     layer = SPARC_CONFIGURATION_INTEGRATION_LAYER
 
 

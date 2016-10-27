@@ -1,0 +1,36 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="sparc.configuration">
+
+    <utility
+    	component=".container.sparcAppPyContainerConfigurationFactory"
+    	name="sparc.configuration.container"
+    	/>
+
+    <utility
+    	component=".container.sparcAppPyDictConfigurationFactory"
+    	name="sparc.configuration.container.dict"
+    	/>
+
+    <utility
+    	component=".container.sparcAppPyListConfigurationFactory"
+    	name="sparc.configuration.container.list"
+    	/>
+
+    <utility
+    	component=".container.sparcAppPyTupleConfigurationFactory"
+    	name="sparc.configuration.container.tuple"
+    	/>
+
+    <utility
+    	component=".container.sparcAppPySetConfigurationFactory"
+    	name="sparc.configuration.container.set"
+    	/>
+
+    <utility
+        provides=".ISparcPyDictValueIterator"
+        factory=".values.SparcPyContainerValueIterator"
+        />
+
+</configure>

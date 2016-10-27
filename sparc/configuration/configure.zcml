@@ -3,6 +3,8 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="sparc.configuration">
 
+    <include package="sparc.proxy" />
+    <include package=".container" />
     <include package=".xml" />
     <include package=".yaml" />
 

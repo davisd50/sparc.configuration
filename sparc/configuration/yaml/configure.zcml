@@ -4,13 +4,8 @@
     i18n_domain="sparc.configuration">
 
     <utility
-    	component=".documents.sparcYamlDocumentsFactory"
-    	name="sparc.configuration.yaml.documents"
-    	/>
-
-    <utility
-        provides=".ISparcYamlDocumentValueIterator"
-        factory=".documents.SparcYamlDocumentValueIterator"
+        provides=".ISparcYamlDocuments"
+        factory=".documents.SparcYamlDocuments"
         />
 
 </configure>
