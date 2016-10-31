@@ -5,6 +5,7 @@ from zope import component
 from zope import interface
 from zope.configuration.xmlconfig import XMLConfig
 from zope.interface.exceptions import DoesNotImplement
+from sparc.configuration import container
 from sparc.configuration import yaml
 from sparc.configuration import zcml
 from sparc.logging import logging
@@ -62,7 +63,7 @@ class YamlCliAppMixin(object):
         """
         self.setLoggers(args)
         #Setup the Zope component registry
-        zcml.Configure(packages=self.app_zcml) # base app configuration
+        zcml.Configure(packages=[self.app_zcml]) # base app configuration
         self.logger.debug("Zope Component Registry initialized")
         #Load the application config
         yaml_doc = component.getUtility(\
@@ -70,12 +71,12 @@ class YamlCliAppMixin(object):
         self.config = component.createObject(\
                                     u'sparc.configuration.container', yaml_doc)
         #Search/load any additional zcml
-        yml_iter = component.getUtility(yaml.ISparcYamlDocumentValueIterator)
-        for zcml in yml_iter.values(self.config, 'ZCMLConfiguration'):
-            pkg = import_module(zcml['name'])
-            file_ = zcml['file'] if 'file' in zcml else 'configure.zcml'
+        yml_iter = component.getUtility(container.ISparcPyDictValueIterator)
+        for zcml_ in yml_iter.values(self.config, 'ZCMLConfiguration'):
+            pkg = import_module(zcml_['name'])
+            file_ = zcml_['file'] if 'file' in zcml else 'configure.zcml'
             XMLConfig(file_, pkg)
-            self.logger.debug("zcml configuration processed for %s:%s", (zcml['name'], file_))
+            self.logger.debug("zcml configuration processed for %s:%s", (zcml_['name'], file_))
 
     def setLoggers(self, args):
         logger = logging.getLogger() # root logger
