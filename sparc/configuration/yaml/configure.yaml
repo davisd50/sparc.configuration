@@ -2,4 +2,4 @@
 # Identifies a Python package Zope ZCML configuration file
 ZCMLConfiguration:
  package: your.python.package.name
- file: your_file.zcml # optional, defaults to configure.zcml
+ file: configure.zcml

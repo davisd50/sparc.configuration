@@ -10,6 +10,8 @@ from sparc.configuration import yaml
 from sparc.configuration import zcml
 from sparc.logging import logging
 
+import zope.component.event #needed in order to initialize the event notification environment
+
 from . import ISparcPyContainerConfiguredApplication
 
 
@@ -73,10 +75,10 @@ class YamlCliAppMixin(object):
         #Search/load any additional zcml
         yml_iter = component.getUtility(container.ISparcPyDictValueIterator)
         for zcml_ in yml_iter.values(self.config, 'ZCMLConfiguration'):
-            pkg = import_module(zcml_['name'])
-            file_ = zcml_['file'] if 'file' in zcml else 'configure.zcml'
-            XMLConfig(file_, pkg)
-            self.logger.debug("zcml configuration processed for %s:%s", (zcml_['name'], file_))
+            pkg = import_module(zcml_['package'])
+            file_ = zcml_['file'] if 'file' in zcml_ else 'configure.zcml'
+            XMLConfig(file_, pkg)()
+            self.logger.info("zcml configuration processed for {}:{}".format(zcml_['package'], file_))
 
     def setLoggers(self, args):
         logger = logging.getLogger() # root logger
