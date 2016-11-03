@@ -22,7 +22,7 @@ class PyContainerConfigValue(object):
     
     def get(self, key):
         values = list(component.getUtility(container.\
-                        ISparcPyDictValueIterator).values(self.config, key))
+                        ISparcPyDictValueIterator).values(self.context, key))
         if not values:
             raise KeyError("key: {} not available in configuration.".format(key))
         return values[0]
