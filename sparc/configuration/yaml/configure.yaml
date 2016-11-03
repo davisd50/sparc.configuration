@@ -1,5 +1,0 @@
-#ZCMLConfiguration
-# Identifies a Python package Zope ZCML configuration file
-ZCMLConfiguration:
- package: your.python.package.name
- file: configure.zcml

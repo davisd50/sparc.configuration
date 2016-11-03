@@ -1,0 +1,18 @@
+#ZCMLConfiguration
+# Identifies a Python package Zope ZCML configuration file
+# This can either be a single entry, or a list of entries (containing
+# package/file keys)
+
+# key/value example
+ZCMLConfiguration:
+ package: your.python.package.name
+ file: configure.zcml #optional, defaults to configure.zcml
+
+# list of key/values example
+ZCMLConfiguration:
+ - package: your.python.package1.name
+   file: configure.zcml
+ - package: your.python.package2.name # file key defaults to configure.zcml
+ - package: your.python.package3.name
+   file: your_file.zcml
+   

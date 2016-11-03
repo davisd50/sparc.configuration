@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="sparc.configuration">
+
+    <utility
+    	component=".zcml.ZCMLFileFactory"
+    	name="sparc.configuration.container.zcml.file"
+    	/>
+
+    <adapter
+        provides=".IZCMLFiles"
+        for="sparc.configuration.container.ISparcAppPyContainerConfiguration"
+        factory=".zcml.ZCMLFilesFromContainerConfig"
+        />
+
+</configure>

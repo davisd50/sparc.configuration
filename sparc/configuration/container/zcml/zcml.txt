@@ -1,0 +1,80 @@
+==================================================
+Sparc Container Configuration ZCML Config Accessor
+==================================================
+Some applications will require multiple 'ZCMLConfiguration' entries.
+Here, we've created some components that ease the access to these 
+configurations.
+
+We'll start with a simple yaml config string and it's conversion into a 
+Python config container
+>>> yaml_config = """\
+... ZCMLConfiguration:
+...  package: sparc.configuration.container
+...  file: configure.zcml
+... """
+>>> from zope import component
+>>> from sparc.configuration import yaml
+>>> container = component.getUtility(yaml.ISparcYamlDocuments).first(yaml_config)
+>>> container['ZCMLConfiguration']['package']
+'sparc.configuration.container'
+
+Because this has a 'ZCMLConfiguration', we can now use some of our zcml
+specific configuration components.
+
+We can get access to the IZCMLFile provider representing this config
+>>> from sparc.configuration.container.zcml import IZCMLFile, IZCMLFiles
+>>> zcml_f =  list(IZCMLFiles(container))[0]
+>>> IZCMLFile.providedBy(zcml_f)
+True
+>>> zcml_f.package.__name__
+'sparc.configuration.container'
+>>> zcml_f.file
+'configure.zcml'
+
+We can also define multiple zcml files within a yaml config
+>>> yaml_config = """\
+... ZCMLConfiguration:
+...  - package: sparc.configuration.container
+...    file: configure.zcml
+...  - package: sparc.configuration.xml
+...  - package: sparc.configuration.yaml
+...    file: dummy.zcml
+... """
+>>> container = component.getUtility(yaml.ISparcYamlDocuments).first(yaml_config)
+>>> zcml_files = list(IZCMLFiles(container))
+
+>>> zcml_files[0].package.__name__
+'sparc.configuration.container'
+>>> zcml_files[0].file
+'configure.zcml'
+
+>>> zcml_files[1].package.__name__
+'sparc.configuration.xml'
+>>> zcml_files[1].file
+'configure.zcml'
+
+>>> zcml_files[2].package.__name__
+'sparc.configuration.yaml'
+>>> zcml_files[2].file
+'dummy.zcml'
+
+Finally, we can also have separate distinct yaml config entries
+>>> yaml_config = """\
+... - ZCMLConfiguration:
+...    package: sparc.configuration.container
+... - ZCMLConfiguration:
+...    package: sparc.configuration.yaml
+...    file: configure.zcml
+... """
+>>> container = component.getUtility(yaml.ISparcYamlDocuments).first(yaml_config)
+>>> zcml_files = list(IZCMLFiles(container))
+
+>>> zcml_files[0].package.__name__
+'sparc.configuration.container'
+>>> zcml_files[0].file
+'configure.zcml'
+
+>>> zcml_files[1].package.__name__
+'sparc.configuration.yaml'
+>>> zcml_files[1].file
+'configure.zcml'
