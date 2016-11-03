@@ -56,7 +56,13 @@ True
 True
 
 But most fun is dynamically creating the correct container config
->>> my_dict = {'1':'a','2':'b'}
+>>> my_dict = {'1':'a','2':{'3':'b'}}
 >>> config = component.createObject(u'sparc.configuration.container', my_dict)
 >>> isinstance(config, dict)
+True
+>>> container.ISparcAppPyContainerConfiguration.providedBy(config)
+True
+>>> container.ISparcAppPyContainerConfiguration.providedBy(config['2'])
+True
+>>> my_dict == config
 True

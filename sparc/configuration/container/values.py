@@ -1,7 +1,8 @@
+from zope import component
 from zope import interface
-from . import ISparcPyDictValueIterator
+from sparc.configuration import container
 
-@interface.implementer(ISparcPyDictValueIterator)
+@interface.implementer(container.ISparcPyDictValueIterator)
 class SparcPyContainerValueIterator(object):
     
     def values(self, document, key):
@@ -12,3 +13,22 @@ class SparcPyContainerValueIterator(object):
             for k, v in i.items():
                 if k == key:
                     yield v
+
+@interface.implementer(container.IPyContainerConfigValue)
+@component.adapter(container.ISparcAppPyContainerConfiguration)
+class PyContainerConfigValue(object):
+    def __init__(self, context):
+        self.context = context
+    
+    def get(self, key):
+        values = list(component.getUtility(container.\
+                        ISparcPyDictValueIterator).values(self.config, key))
+        if not values:
+            raise KeyError("key: {} not available in configuration.".format(key))
+        return values[0]
+
+    def query(self, key):
+        try:
+            return self.get(key)
+        except KeyError:
+            return None

@@ -1,3 +1,4 @@
+from .interfaces import IPyContainerConfigValue
 from .interfaces import ISparcAppPyContainerConfiguration
 from .interfaces import ISparcPyContainerConfiguredApplication
 from .interfaces import ISparcPyDictValueIterator

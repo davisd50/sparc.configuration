@@ -32,5 +32,11 @@
         provides=".ISparcPyDictValueIterator"
         factory=".values.SparcPyContainerValueIterator"
         />
+    
+    <adapter
+        provides=".IPyContainerConfigValue"
+        for=".ISparcAppPyContainerConfiguration"
+        factory=".values.PyContainerConfigValue"
+        />
 
 </configure>

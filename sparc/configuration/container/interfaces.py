@@ -30,3 +30,30 @@ class ISparcPyDictValueIterator(interface.Interface):
             config: ISparcAppPyContainerConfiguration provider.
             key: Hashable key to match on
         """
+
+class IPyContainerConfigValue(interface.Interface):
+    """Find Yaml document values based on a key"""
+    def get(key):
+        """Get the first config value matching key
+        
+        See ISparcPyDictValueIterator for information on how search for key
+        is performed.
+        
+        Raises: KeyError if key is not found and default is not
+        
+        Args:
+            key: Hashable key to match on
+            
+        Returns: object value from key
+        """
+    def query(key):
+        """Get the first config value matching key, if available
+        
+        See ISparcPyDictValueIterator for information on how search for key
+        is performed.
+        
+        Args:
+            key: Hashable key to match on
+            
+        Returns: object value from key or None if key is not found
+        """
