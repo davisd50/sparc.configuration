@@ -57,32 +57,41 @@ def getScriptArgumentParser(description, args=sys.argv):
 
 @interface.implementer(ISparcPyContainerConfiguredApplication)
 class YamlCliAppMixin(object):
-    def __init__(self, args):
+    def __init__(self, config=None, verbose=False, debug=False):
         """Init
         
         Args:
-            args: argparse.ArgumentParser object with config_file, --verbose,
-                  and --debug argument options.
+            config: ISparcAppPyContainerConfiguration compatible Py container for runtime configuration (i.e. a dict or list)
+            verbose: True indicates verbose logging
+            debug: True indicate debug logging
         """
-        self.setLoggers(args)
+        self.setLoggers(verbose, debug)
         #Setup the Zope component registry
-        zcml.Configure(packages=[self.app_zcml]) # base app configuration
+        zcml.Configure(packages=[self.app_zcml]) # base app component registrations
         self.logger.debug("Zope Component Registry initialized")
-        #Load the application config
-        yaml_doc = component.getUtility(\
-                            yaml.ISparcYamlDocuments).first(args.config_file)
-        self.config = component.createObject(\
-                                    u'sparc.configuration.container', yaml_doc)
-        #Search/load any additional zcml
-        for z_file in IZCMLFiles(self.config):
+        if not config:
+            config = {}
+        self._config = component.createObject(u'sparc.configuration.container', config) # initialize
+    
+    def get_config(self):
+        return self._config
+    
+    def set_config(self, config):
+        if not ISparcPyContainerConfiguredApplication.providedBy(config):
+            config = component.createObject(u'sparc.configuration.container', config)
+        self._config = config
+
+    def configure(self):
+        #Search/load any additional runtime config zcml
+        for z_file in IZCMLFiles(self.get_config()):
             XMLConfig(z_file.file, z_file.package)()
             self.logger.info("zcml configuration processed for {}:{}".format(z_file.package.__name__, z_file.file))
 
-    def setLoggers(self, args):
+    def setLoggers(self, verbose, debug):
         logger = logging.getLogger() # root logger
-        if args.verbose:
+        if verbose:
             logger.setLevel('INFO')
-        if args.debug:
+        if debug:
             logger.setLevel('DEBUG')
 
     # OVERRIDES

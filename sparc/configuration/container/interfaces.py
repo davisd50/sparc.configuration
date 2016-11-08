@@ -9,7 +9,16 @@ class ISparcAppPyContainerConfiguration(ISparcAppConfiguration):
     """
 
 class ISparcPyContainerConfiguredApplication(ISparcApplication):
-    config = interface.Attribute("ISparcAppPyContainerConfiguration")
+    def get_config():
+        """Return ISparcAppPyContainerConfiguration provider for current 
+           runtime configuration settings"""
+    def set_config(config):
+        """Set ISparcAppPyContainerConfiguration provider or Python container 
+           (dict, list, tuple, set) for current runtime configuration settings
+        
+        Args:
+            config: ISparcAppConfiguration provider
+        """
 
 class ISparcPyDictValueIterator(interface.Interface):
     """Find Yaml document values based on a key"""

@@ -5,6 +5,15 @@ class ISparcAppConfiguration(interface.Interface):
 
 class ISparcApplication(interface.Interface):
     """An Application"""
-    config = interface.Attribute("ISparcAppConfiguration object")
+    def get_config():
+        """Return ISparcAppConfiguration provider for current runtime configuration settings"""
+    def set_config(config):
+        """Set ISparcAppConfiguration for current runtime configuration settings
+        
+        Args:
+            config: ISparcAppConfiguration provider
+        """
+    def configure():
+        """Configure runtime environment to settings to current config"""
     def go():
         """Run the application"""
