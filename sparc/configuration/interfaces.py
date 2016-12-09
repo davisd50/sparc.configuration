@@ -1,4 +1,8 @@
 from zope import interface
+from zope.interface.interfaces import IObjectEvent
+
+class ISparcApplicationConfiguredEvent(IObjectEvent):
+    """A configuration has been applied to a ISparcApplication"""
 
 class ISparcAppConfiguration(interface.Interface):
     """Marker for Sparc application configuration data"""
@@ -14,6 +18,8 @@ class ISparcApplication(interface.Interface):
             config: ISparcAppConfiguration provider
         """
     def configure():
-        """Configure runtime environment to settings to current config"""
+        """Configure runtime environment to settings to current config.
+        Issues a ISparcApplicationConfiguredEvent
+        """
     def go():
         """Run the application"""

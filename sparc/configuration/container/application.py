@@ -1,14 +1,13 @@
 import argparse
-from importlib import import_module
 import sys
 from zope import component
+from zope import event
 from zope import interface
 from zope.configuration.xmlconfig import XMLConfig
 from zope.interface.exceptions import DoesNotImplement
-from sparc.configuration import container
-from sparc.configuration import yaml
 from sparc.configuration import zcml
 from sparc.configuration.container.zcml import IZCMLFiles
+from sparc.configuration.events import SparcApplicationConfiguredEvent
 from sparc.logging import logging
 
 import zope.component.event #needed in order to initialize the event notification environment
@@ -86,6 +85,7 @@ class YamlCliAppMixin(object):
         for z_file in IZCMLFiles(self.get_config()):
             XMLConfig(z_file.file, z_file.package)()
             self.logger.info("zcml configuration processed for {}:{}".format(z_file.package.__name__, z_file.file))
+        event.notify(SparcApplicationConfiguredEvent(self))
 
     def setLoggers(self, verbose, debug):
         logger = logging.getLogger() # root logger
