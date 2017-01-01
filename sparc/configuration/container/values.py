@@ -20,12 +20,22 @@ class PyContainerConfigValue(object):
     def __init__(self, context):
         self.context = context
     
-    def get(self, key):
+    #def get(self, key, default=None): #<--signature
+    def get(self, *args, **kwargs):
+        key = args[0]
+        has_default = False
+        if len(args) > 1:
+            has_default = True
+            default = args[1]
+        if not has_default and 'default' in kwargs:
+            has_default = True
+            default = kwargs['default']
+            
         values = list(component.getUtility(container.\
                         ISparcPyDictValueIterator).values(self.context, key))
-        if not values:
+        if not values and not has_default:
             raise KeyError("key: {} not available in configuration.".format(key))
-        return values[0]
+        return values[0] if len(values) else default
 
     def query(self, key):
         try:

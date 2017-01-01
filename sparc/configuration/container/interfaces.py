@@ -42,18 +42,18 @@ class ISparcPyDictValueIterator(interface.Interface):
 
 class IPyContainerConfigValue(interface.Interface):
     """Find Yaml document values based on a key"""
-    def get(key):
+    def get(key, default=None):
         """Get the first config value matching key
         
         See ISparcPyDictValueIterator for information on how search for key
         is performed.
         
-        Raises: KeyError if key is not found and default is not
+        Raises: KeyError if key is not found and default is not given
         
         Args:
             key: Hashable key to match on
             
-        Returns: object value from key
+        Returns: object value from key or default
         """
     def query(key):
         """Get the first config value matching key, if available
