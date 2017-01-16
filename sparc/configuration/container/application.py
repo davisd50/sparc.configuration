@@ -84,7 +84,7 @@ class YamlCliAppMixin(object):
         #Search/load any additional runtime config zcml
         for z_file in IZCMLFiles(self.get_config()):
             XMLConfig(z_file.file, z_file.package)()
-            self.logger.info("zcml configuration processed for {}:{}".format(z_file.package.__name__, z_file.file))
+            self.logger.info("zcml configuration processed for {}:{}".format(z_file.package.__name__ if z_file.package else None, z_file.file))
         event.notify(SparcApplicationConfiguredEvent(self))
 
     def setLoggers(self, verbose, debug):

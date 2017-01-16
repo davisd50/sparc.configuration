@@ -31,5 +31,6 @@ class ZCMLFilesFromContainerConfig(object):
             for zcml_config in zcml_entry:
                 file_name = zcml_config.get('file', 'configure.zcml')
                 yield ZCMLFile(
-                    package = importlib.import_module(zcml_config['package']),
+                    package = importlib.import_module(zcml_config['package']) \
+                                            if 'package' in zcml_config else None,
                     file_ = file_name)
