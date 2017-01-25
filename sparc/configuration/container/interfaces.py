@@ -42,7 +42,7 @@ class ISparcPyDictValueIterator(interface.Interface):
 
 class IPyContainerConfigValue(interface.Interface):
     """Find Yaml document values based on a key"""
-    def get(key, default=None):
+    def get(*args, **kwargs):
         """Get the first config value matching key
         
         See ISparcPyDictValueIterator for information on how search for key
@@ -51,18 +51,22 @@ class IPyContainerConfigValue(interface.Interface):
         Raises: KeyError if key is not found and default is not given
         
         Args:
-            key: Hashable key to match on
+            Ordered keys to search in config.  To find 'value1' in this
+            container {'key1': {'key2': 'value1'}}, you would make a call
+            to get('key1', 'key2')
+        Kwargs:
+            default: value to return if given args are not referencable.
             
         Returns: object value from key or default
         """
-    def query(key):
+    def query(*args):
         """Get the first config value matching key, if available
         
         See ISparcPyDictValueIterator for information on how search for key
         is performed.
         
         Args:
-            key: Hashable key to match on
+            [see get()]
             
         Returns: object value from key or None if key is not found
         """

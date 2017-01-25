@@ -35,3 +35,38 @@ in stand python ways)
 >>> config4 = [[config1]]
 >>> list(component.getUtility(container.ISparcPyDictValueIterator).values(config4,'1'))
 []
+
+Getting values in this way is a little too verbose and cumbersome for most
+use cases.  Because of this, the convenience IPyContainerConfigValue interface
+is available along with an adapter for objects providing 
+ISparcAppPyContainerConfiguration.
+
+Create container providing ISparcAppPyContainerConfiguration and adapt it into
+a IPyContainerConfigValue provider
+>>> from sparc.configuration.container import IPyContainerConfigValue
+>>> config = component.createObject(u'sparc.configuration.container', 
+...     [{},{'key1':{'key2':'value1'}}])
+>>> v_getter = IPyContainerConfigValue(config)
+
+We can now start referencing values from the config easily
+>>> v_getter.get('key1')
+{'key2': 'value1'}
+>>> v_getter.get('key1','key2')
+'value1'
+
+Illegal keys raise exceptions (if no default is provided)
+>>> v_getter.get('illegal_key')
+Traceback (most recent call last):
+...
+KeyError: 'key: illegal_key not available in configuration.'
+
+You can provide a default to protect against exceptions
+>>> v_getter.get('key1','key2','illegal_key', default='test')
+'test'
+
+If the config contains competing entries, only the first will be returned
+>>> config = component.createObject(u'sparc.configuration.container', 
+...     [{'key1':{'key2':'valueA'}}, {'key1':{'key2':'valueB'}}])
+>>> v_getter = IPyContainerConfigValue(config)
+>>> v_getter.get('key1','key2')
+'valueA'
