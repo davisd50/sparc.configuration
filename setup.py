@@ -37,7 +37,9 @@ setup(name='sparc.configuration',
           'pyaml',
           'zope.interface',
           'zope.component',
+          'zope.configuration',
           'zope.schema',
+          'zope.security',
           'sparc.proxy'
           # -*- Extra requirements: -*-
       ],
