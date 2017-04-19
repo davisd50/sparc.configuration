@@ -5,8 +5,8 @@ from sparc.configuration import container
 @interface.implementer(container.ISparcPyDictValueIterator)
 class SparcPyContainerValueIterator(object):
     
-    def values(self, document, key):
-        _list = document if not isinstance(document, dict) else [document]
+    def values(self, config, key):
+        _list = config if not isinstance(config, dict) else [config]
         for i in _list:
             if not isinstance(i, dict):
                 continue
@@ -26,8 +26,7 @@ class PyContainerConfigValue(object):
         
         config = self.context
         for key in args:
-            values = list(component.getUtility(container.\
-                        ISparcPyDictValueIterator).values(config, key))
+            values = list(SparcPyContainerValueIterator().values(config, key))
             if not values:
                 if has_default:
                     return kwargs['default']
