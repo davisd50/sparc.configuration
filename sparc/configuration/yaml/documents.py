@@ -16,7 +16,7 @@ class SparcYamlDocuments(object):
                 yield component.createObject(\
                                         u'sparc.configuration.container', doc)
             else:
-                return doc
+                yield doc
 
     def first(self, config):
         return next(self.documents(config))
