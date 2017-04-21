@@ -1,7 +1,6 @@
 from os.path import isfile
 import yaml
 from zope import interface
-from zope import component
 
 from sparc.configuration.container import container
 from . import ISparcYamlDocuments
@@ -13,8 +12,7 @@ class SparcYamlDocuments(object):
         config = config if not isfile(config) else open(config)
         for doc in yaml.load_all(config):
             if container.SparcAppPyContainerConfiguration.is_container(doc):
-                yield component.createObject(\
-                                        u'sparc.configuration.container', doc)
+                yield container.sparcAppPyContainerConfigurationFactory(doc)
             else:
                 yield doc
 
