@@ -1,0 +1,18 @@
+nguage: python
+python:
+- '2.7'
+- '3.3'
+- '3.4'
+- '3.5'
+- '3.6'
+install: pip install -e .[testing]
+script: zope-testrunner --test-path=./
+deploy:
+  provider: pypi
+  user: davisd50
+  password:
+    secure: YHdr5YIc+dXSkN0QYChStyAPFbWNdk7h38cFhWcNzsqsm5sVRWvyfuXcZ3byTxEvYuAC8HtfgpDGvgFvXOMyBeURMKKDgEU4gSVVMBT/GIFLw9tekLwZs4aOVaAmKmcofK/nmigDpudHFqdkoNP3EbqUjyq3ROv/ALS1sDZt+PGK4OpBjpmrmvY6DlPjMVwOaF/xdIO4xIvucpdawjagQar/WnywE+KdKqO1EE/YLCV3OW/+v23TaakCLfgULKWZJbtqdxacfqdESTiG8sygkne6WHqeoBRyECWCifcOvpyRMHO0D4iBGYRM2KkvZto2vOMZqX+yxby7yGPUGB0KBxdaHBRmwpks5mbY4Stpp68MIXl4/qh+/kW9DC2M8MfhYFOckBbgo/3VJfgYhDHPpqFB6ixd32Q3BP0Lr1MNPDjepBdNlt25uEo/bS77IdT86M7i9+FSP4FlA/nar/jOZDGoMBwXSq45iiJsQQfiQ8ArxrKyMYxlCa1ifhGdbu38SAU9lsmfsmVPwVxO2q3QvkTjO08cGR5OE+rxt7sky/T0LspP2m/Dm92EkKz3MqmW1uc56EbcODzKwnqYxPLe5J0OcIJ7xK8E7tLvNtQN63UGtwLbcXk6fF/EGPiUXQi2l9Bzgx34/DoQXvtCDwAzu4B+uInSnY1yENc+6hAlY64=
+  on:
+    tags: true
+    branch: master
+
