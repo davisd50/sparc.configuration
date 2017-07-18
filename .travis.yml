@@ -11,6 +11,7 @@ install:
     # system Python path, so runtime imports fail because other zope packages
     # live in different directory.
     - sudo -H pip install -I zope.interface
+    - sudo -H pip install twine
     - sudo -H pip install -e .[testing]
 script: zope-testrunner --test-path=./
 deploy:
