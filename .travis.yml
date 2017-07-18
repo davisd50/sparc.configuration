@@ -6,8 +6,7 @@ python:
 - '3.5'
 - '3.6'
 install:
-    - pip install -U pip wheel
-    - pip install -e .[testing]
+    - sudo pip install -e .[testing]
 script: zope-testrunner --test-path=./
 deploy:
   provider: pypi
