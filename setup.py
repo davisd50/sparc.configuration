@@ -1,7 +1,12 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.0.1'
+version = '0.0.2rc1'
+
+TESTS_REQUIRE = [
+    'sparc.testing',
+    'zope.testrunner'
+    ]
 
 setup(name='sparc.configuration',
       version=version,
@@ -43,9 +48,11 @@ setup(name='sparc.configuration',
           'sparc.proxy'
           # -*- Extra requirements: -*-
       ],
-      tests_require=[
-          'sparc.testing'
-      ],
+      tests_require=TESTS_REQUIRE,
+      extras_require={
+          'testing': ['zope.testrunner',
+                      'sparc.testing[zcml]']
+      },
       entry_points="""
       # -*- Entry points: -*-
       """,

@@ -2,3 +2,15 @@
 ++++++++++++++++++
 
 * initial release
+
+0.0.2
+++++++++++++++++++
+
+* let value getter have a default
+* allow pacakge-less zcml imports (file-path only zcml declarations)
+* update IPyContainerConfigValue to allow deep key reference
+* fix dependency identifiers
+* fix generator error
+* remove dependency on ZCA from implementations
+* remove dependency on zope.component
+* add travis ci config
