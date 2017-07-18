@@ -51,7 +51,8 @@ setup(name='sparc.configuration',
       ],
       tests_require=TESTS_REQUIRE,
       extras_require={
-          'testing': ['zope.testrunner',
+          'testing': ['zope.interface',
+                      'zope.testrunner',
                       'sparc.testing[zcml]']
       },
       entry_points="""
