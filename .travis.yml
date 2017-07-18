@@ -6,6 +6,7 @@ python:
 - '3.5'
 - '3.6'
 install:
+    - sudo -H pip install -I zope.interface
     - sudo -H pip install -e .[testing]
 script: zope-testrunner --test-path=./
 deploy:
