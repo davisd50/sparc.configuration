@@ -6,6 +6,10 @@ python:
 - '3.5'
 - '3.6'
 install:
+    # reinstall of zope.interface needed to make sure namespaced install lives
+    # in same dir as other zope packages.  zope.interface is available in
+    # system Python path, so runtime imports fail because other zope packages
+    # live in different directory.
     - sudo -H pip install -I zope.interface
     - sudo -H pip install -e .[testing]
 script: zope-testrunner --test-path=./
